@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/interface/pages/article/article.dart';
 import 'package:news_app/interface/pages/category/category.dart';
 
 import 'utils/utils.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: newsTheme,
-      home: const NewsCategory(),
+      home: const NewsArticle(),
       onGenerateRoute: NewsRoute.generateRoute,
     );
   }
