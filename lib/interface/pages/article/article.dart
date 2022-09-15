@@ -12,7 +12,10 @@ class NewsArticle extends StatelessWidget {
         children: [
           Expanded(
             flex: 5,
-            child: Text('Fuck'),
+            child: Image.asset(
+              'assets/images/blurblue.png',
+              fit: BoxFit.fill,
+            ),
           ),
           Expanded(
             flex: 4,
@@ -28,66 +31,89 @@ class NewsArticle extends StatelessWidget {
                   topRight: Radius.circular(radius),
                 ),
               ),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 150,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(radius),
-                            color: blackColor),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CircleAvatar(
-                                child: Icon(
-                                  Icons.person,
-                                  color: blackColor,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(radius),
+                              color: blackColor),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CircleAvatar(
+                                  child: Icon(
+                                    Icons.person,
+                                    color: blackColor,
+                                  ),
+                                  backgroundColor: bgColor,
                                 ),
-                                backgroundColor: bgColor,
-                              ),
-                              XBox(10),
-                              Expanded(
-                                child: BaseHeaderText(
-                                  string: 'kmdmd d  dj ghjvv',
-                                  textColor: whiteColor,
-                                  maxlines: 1,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              )
-                            ],
+                                XBox(10),
+                                Expanded(
+                                  child: BaseHeaderText(
+                                    string: 'kmdmd ddj ghjvv',
+                                    textColor: whiteColor,
+                                    maxlines: 1,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      XBox(10),
-                      Container(
-                        width: 80,
-                        height: 50,
-                        decoration: BoxDecoration(
+                        XBox(10),
+                        Container(
+                          width: 110,
+                          height: 50,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(radius + 20),
-                            color: bgColor),
-                      ),
-                      XBox(10),
-                      Container(
-                        width: 90,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(radius + 20),
-                          color: bgColor,
-                        ),
-                        child: Row(
-                          children: [],
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                            color: bgColor,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CircleAvatar(
+                                  child: Icon(
+                                    Icons.person,
+                                    color: blackColor,
+                                  ),
+                                  backgroundColor: bgColor,
+                                ),
+                                XBox(10),
+                                Expanded(
+                                  child: BaseHeaderText(
+                                    string: '2h',
+                                    textColor: blackColor,
+                                    maxlines: 1,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    YBox(30),
+                    BaseHeaderText(
+                      string: 'lol',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

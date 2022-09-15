@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/data/api/article_repository.dart';
+import 'package:news_app/data/models/models.dart';
+import 'package:news_app/logic/bloc/news_bloc_bloc.dart';
 
 import '../../../utils/utils.dart';
 import '../../widgets/widgets.dart';
 
-class NewsCategory extends StatelessWidget {
+class NewsCategory extends StatefulWidget {
   const NewsCategory({super.key});
 
+  @override
+  State<NewsCategory> createState() => _NewsCategoryState();
+}
+
+class _NewsCategoryState extends State<NewsCategory> {
+  CategoryRepository _categoryRepository = CategoryRepository();
+  late Future<List<NewsModel>> futureSports =
+      _categoryRepository.fetchCategory('sports');
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -31,29 +43,29 @@ class NewsCategory extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                YBox(
+                const YBox(
                   30,
                 ),
-                BaseHeaderText(
+                const BaseHeaderText(
                   string: NewsString.articleBHeading,
                   fontSize: radius,
                   fontWeight: FontWeight.w900,
                 ),
-                YBox(5),
-                BaseHeaderText(
+                const YBox(5),
+                const BaseHeaderText(
                   string: NewsString.articleSHeading,
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                   textColor: greyColor,
                 ),
-                YBox(
+                const YBox(
                   30,
                 ),
-                SearchTextField(),
-                YBox(
+                const SearchTextField(),
+                const YBox(
                   30,
                 ),
-                TabBar(
+                const TabBar(
                   isScrollable: true,
                   tabs: [
                     Tab(
@@ -70,31 +82,57 @@ class NewsCategory extends StatelessWidget {
                     ),
                   ],
                 ),
-                YBox(
+                const YBox(
                   10,
                 ),
                 Expanded(
                   child: TabBarView(
                     children: [
-                      CategoryCard(),
-                      Card(
-                        child: Row(
-                          children: [Image.asset('assets/images/blurblue.png')],
-                        ),
+                      // BlocBuilder<NewsBlocBloc, NewsBlocState>(
+                      //   builder: (context, state) {
+                      //     if (state is NewsBlocInitial) {
+                      //       const Center(child: Text('Waiting'));
+                      //     } else if (state is LoadedState) {
+                      //       FutureBuilder<List<NewsModel>>(
+                      //         future: state.repository,
+                      //         builder: (context, snapshot) {
+                      //           if (snapshot.hasData) {
+                      //             List<NewsModel> articles = snapshot.data!;
+                      //             return ListView.builder(
+                      //               itemCount: articles.length,
+                      //               scrollDirection: Axis.horizontal,
+                      //               physics:
+                      //                   const AlwaysScrollableScrollPhysics(),
+                      //               itemBuilder: (context, int index) {
+                      //                 return CategoryCard(
+                      //                   news: articles[index],
+                      //                 );
+                      //               },
+                      //             );
+                      //           }
+
+                      //           return const SizedBox.shrink();
+                      //         },
+                      //       );
+                      //     }
+                      //     return CircularProgressIndicator();
+                      //   },
+                      // ),
+                      CategoryView(
+                        string: 'general',
                       ),
-                      Card(
-                        child: Row(
-                          children: [Image.asset('assets/images/blurblue.png')],
-                        ),
+                      CategoryView(
+                        string: 'business',
                       ),
-                      Card(
-                        child: Row(
-                          children: [Image.asset('assets/images/blurblue.png')],
-                        ),
+                      CategoryView(
+                        string: 'sports',
+                      ),
+                      CategoryView(
+                        string: 'technology',
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -103,3 +141,85 @@ class NewsCategory extends StatelessWidget {
     );
   }
 }
+
+class CategoryView extends StatelessWidget {
+  final String string;
+  const CategoryView({Key? key, required this.string}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<NewsBlocBloc>(
+        create: (context) =>
+            NewsBlocBloc(RepositoryProvider.of<CategoryRepository>(context))
+              ..add(FetchArticle(category: string)),
+        child: BlocConsumer<NewsBlocBloc, NewsBlocState>(
+          listener: (context, state) {
+            if (state is NewsBlocInitial) {
+              const Center(child: Text('Waiting'));
+            }
+          },
+          builder: (context, state) {
+            if (state is ErrorState) {
+              return showToasterror(state.message);
+            } else if (state is LoadedState) {
+              return FutureBuilder<List<NewsModel>>(
+                future: state.repository,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<NewsModel> articles = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: articles.length,
+                      scrollDirection: Axis.vertical,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemBuilder: (context, int index) {
+                        return CategoryCard(
+                          news: articles[index],
+                        );
+                      },
+                    );
+                  }
+
+                  return const SizedBox.shrink();
+                },
+              );
+            } else if (state is LoadingState) {}
+            return Center(
+                child: const CircularProgressIndicator(
+              value: 50,
+            ));
+          },
+        ));
+  }
+}
+
+
+// BlocBuilder<NewsBlocBloc, NewsBlocState>(
+//                           builder: (context, state) {
+//                             if (state is ErrorState) {
+//                               return showToasterror(state.message);
+//                             } else if (state is LoadedState) {
+//                               return FutureBuilder<List<NewsModel>>(
+//                                 future: state.repository,
+//                                 builder: (context, snapshot) {
+//                                   if (snapshot.hasData) {
+//                                     List<NewsModel> articles = snapshot.data!;
+//                                     return ListView.builder(
+//                                       itemCount: articles.length,
+//                                       scrollDirection: Axis.vertical,
+//                                       physics:
+//                                           const AlwaysScrollableScrollPhysics(),
+//                                       itemBuilder: (context, int index) {
+//                                         return CategoryCard(
+//                                           news: articles[index],
+//                                         );
+//                                       },
+//                                     );
+//                                   }
+
+//                                   return const SizedBox.shrink();
+//                                 },
+//                               );
+//                             }
+//                             return const CircularProgressIndicator();
+//                           },
+//                         ),

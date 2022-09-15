@@ -18,6 +18,7 @@ class NewsString {
 class BaseHeaderText extends StatelessWidget {
   final double? fontSize;
   final String string;
+  final TextOverflow? overflow;
   final Color? textColor;
   final int? maxlines;
   final FontWeight? fontWeight;
@@ -28,6 +29,7 @@ class BaseHeaderText extends StatelessWidget {
     this.textColor,
     this.fontWeight,
     this.maxlines,
+    this.overflow,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,6 @@ class BaseHeaderText extends StatelessWidget {
     return Text(
       string,
       maxLines: maxlines,
-      overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: fontWeight,

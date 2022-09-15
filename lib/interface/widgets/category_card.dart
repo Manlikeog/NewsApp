@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/data/models/models.dart';
 
 import '../../utils/utils.dart';
 
 class CategoryCard extends StatelessWidget {
-  const CategoryCard({
-    Key? key,
-  }) : super(key: key);
+  final NewsModel? news;
+  const CategoryCard({Key? key, this.news}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +24,15 @@ class CategoryCard extends StatelessWidget {
             Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
-                  'assets/images/doctor4.jpg',
+                child: Image.network(
+                  news!.image,
                   height: 100,
                   width: 100,
                   fit: BoxFit.fill,
                 ),
               ),
             ),
-            XBox(15),
+            const XBox(15),
             Container(
               height: 100,
               width: 200,
@@ -40,21 +40,21 @@ class CategoryCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BaseHeaderText(
-                    string: "Candidate Biden called Saudi Arabia a 'Pariah'",
+                    string: news!.descriptionName,
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                     maxlines: 2,
                   ),
-                  YBox(20),
+                  const YBox(20),
                   Expanded(
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.access_time,
                           color: greyColor,
                         ),
-                        XBox(10),
-                        Text('4 Hours ago')
+                        const XBox(10),
+                        const Text('4 Hours ago')
                       ],
                     ),
                   )
