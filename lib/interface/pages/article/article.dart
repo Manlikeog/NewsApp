@@ -139,14 +139,18 @@ class _NewsArticleState extends State<NewsArticle> {
                     ),
                     const YBox(30),
                     BaseHeaderText(
-                      string: 'Title: ${widget.newsModel!.title}',
+                      string: widget.newsModel!.title == ''
+                          ? 'No Title'
+                          : 'Title: ${widget.newsModel!.title}',
                       fontSize: 20,
                       fontWeight: FontWeight.w900,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const YBox(30),
                     BaseHeaderText(
-                      string: widget.newsModel!.contentA,
+                      string: widget.newsModel!.contentA == ''
+                          ? 'No content'
+                          : widget.newsModel!.contentA,
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                       overflow: TextOverflow.fade,

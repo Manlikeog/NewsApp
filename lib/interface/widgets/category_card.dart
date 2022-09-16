@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/data/models/models.dart';
 import 'package:news_app/interface/pages/article/article.dart';
@@ -35,10 +36,12 @@ class CategoryCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Image.network(
-                news!.image,
+              child: CachedNetworkImage(
                 height: 100,
                 width: 100,
+                imageUrl: news!.image,
+                errorWidget: (context, url, widget) =>
+                    const Center(child: Icon(Icons.error)),
                 fit: BoxFit.fill,
               ),
             ),
@@ -50,7 +53,8 @@ class CategoryCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BaseHeaderText(
-                    string: news!.descriptionName,
+                    string:
+                        news!.titleName == '' ? 'No title' : news!.titleName,
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                     maxlines: 2,
