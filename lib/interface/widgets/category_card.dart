@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/data/models/models.dart';
+import 'package:news_app/interface/pages/article/article.dart';
 
 import '../../utils/utils.dart';
 
@@ -10,7 +11,18 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (() {}),
+      onTap: (() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return NewsArticle(
+                newsModel: news,
+              );
+            },
+          ),
+        );
+      }),
       child: Padding(
         padding: const EdgeInsets.only(
           top: 15,
@@ -21,19 +33,17 @@ class CategoryCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.network(
-                  news!.image,
-                  height: 100,
-                  width: 100,
-                  fit: BoxFit.fill,
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.network(
+                news!.image,
+                height: 100,
+                width: 100,
+                fit: BoxFit.fill,
               ),
             ),
             const XBox(15),
-            Container(
+            SizedBox(
               height: 100,
               width: 200,
               child: Column(
@@ -48,13 +58,13 @@ class CategoryCard extends StatelessWidget {
                   const YBox(20),
                   Expanded(
                     child: Row(
-                      children: [
-                        const Icon(
+                      children: const [
+                        Icon(
                           Icons.access_time,
                           color: greyColor,
                         ),
-                        const XBox(10),
-                        const Text('4 Hours ago')
+                        XBox(10),
+                        Text('4 Hours ago')
                       ],
                     ),
                   )

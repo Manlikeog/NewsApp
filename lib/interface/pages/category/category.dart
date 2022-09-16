@@ -16,7 +16,7 @@ class NewsCategory extends StatefulWidget {
 }
 
 class _NewsCategoryState extends State<NewsCategory> {
-  CategoryRepository _categoryRepository = CategoryRepository();
+  final CategoryRepository _categoryRepository = CategoryRepository();
   late Future<List<NewsModel>> futureSports =
       _categoryRepository.fetchCategory('sports');
   @override
@@ -42,30 +42,30 @@ class _NewsCategoryState extends State<NewsCategory> {
             padding: pagePadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const YBox(
+              children: const [
+                YBox(
                   30,
                 ),
-                const BaseHeaderText(
+                BaseHeaderText(
                   string: NewsString.articleBHeading,
                   fontSize: radius,
                   fontWeight: FontWeight.w900,
                 ),
-                const YBox(5),
-                const BaseHeaderText(
+                YBox(5),
+                BaseHeaderText(
                   string: NewsString.articleSHeading,
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                   textColor: greyColor,
                 ),
-                const YBox(
+                YBox(
                   30,
                 ),
-                const SearchTextField(),
-                const YBox(
+                SearchTextField(),
+                YBox(
                   30,
                 ),
-                const TabBar(
+                TabBar(
                   isScrollable: true,
                   tabs: [
                     Tab(
@@ -82,42 +82,12 @@ class _NewsCategoryState extends State<NewsCategory> {
                     ),
                   ],
                 ),
-                const YBox(
+                YBox(
                   10,
                 ),
                 Expanded(
                   child: TabBarView(
                     children: [
-                      // BlocBuilder<NewsBlocBloc, NewsBlocState>(
-                      //   builder: (context, state) {
-                      //     if (state is NewsBlocInitial) {
-                      //       const Center(child: Text('Waiting'));
-                      //     } else if (state is LoadedState) {
-                      //       FutureBuilder<List<NewsModel>>(
-                      //         future: state.repository,
-                      //         builder: (context, snapshot) {
-                      //           if (snapshot.hasData) {
-                      //             List<NewsModel> articles = snapshot.data!;
-                      //             return ListView.builder(
-                      //               itemCount: articles.length,
-                      //               scrollDirection: Axis.horizontal,
-                      //               physics:
-                      //                   const AlwaysScrollableScrollPhysics(),
-                      //               itemBuilder: (context, int index) {
-                      //                 return CategoryCard(
-                      //                   news: articles[index],
-                      //                 );
-                      //               },
-                      //             );
-                      //           }
-
-                      //           return const SizedBox.shrink();
-                      //         },
-                      //       );
-                      //     }
-                      //     return CircularProgressIndicator();
-                      //   },
-                      // ),
                       CategoryView(
                         string: 'general',
                       ),
@@ -183,10 +153,7 @@ class CategoryView extends StatelessWidget {
                 },
               );
             } else if (state is LoadingState) {}
-            return Center(
-                child: const CircularProgressIndicator(
-              value: 50,
-            ));
+            return const Center(child: CircularProgressIndicator.adaptive());
           },
         ));
   }
