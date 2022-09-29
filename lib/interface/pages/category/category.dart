@@ -15,10 +15,35 @@ class NewsCategory extends StatefulWidget {
   State<NewsCategory> createState() => _NewsCategoryState();
 }
 
-class _NewsCategoryState extends State<NewsCategory> {
+class _NewsCategoryState extends State<NewsCategory>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
   final CategoryRepository _categoryRepository = CategoryRepository();
   late Future<List<NewsModel>> futureSports =
       _categoryRepository.fetchCategory('sports');
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..forward();
+
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutBack,
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -42,30 +67,33 @@ class _NewsCategoryState extends State<NewsCategory> {
             padding: pagePadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                YBox(
+              children: [
+                const YBox(
                   30,
                 ),
-                BaseHeaderText(
-                  string: NewsString.articleBHeading,
-                  fontSize: radius,
-                  fontWeight: FontWeight.w900,
+                ScaleTransition(
+                  scale: _animation,
+                  child: const BaseHeaderText(
+                    string: NewsString.articleBHeading,
+                    fontSize: radius,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
-                YBox(5),
-                BaseHeaderText(
+                const YBox(5),
+                const BaseHeaderText(
                   string: NewsString.articleSHeading,
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                   textColor: greyColor,
                 ),
-                YBox(
+                const YBox(
                   30,
                 ),
-                SearchTextField(),
-                YBox(
+                const SearchTextField(),
+                const YBox(
                   30,
                 ),
-                TabBar(
+                const TabBar(
                   isScrollable: true,
                   tabs: [
                     Tab(
@@ -82,10 +110,10 @@ class _NewsCategoryState extends State<NewsCategory> {
                     ),
                   ],
                 ),
-                YBox(
+                const YBox(
                   10,
                 ),
-                Expanded(
+                const Expanded(
                   child: TabBarView(
                     children: [
                       CategoryView(

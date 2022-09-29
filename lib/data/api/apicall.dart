@@ -24,6 +24,8 @@ class ApiCall {
           return articles;
         case 400:
           throw showToasterror("The request to the server is unacceptable");
+        case 403:
+          throw showToasterror('lol');
         case 500:
           throw showToasterror("Something went wrong with the client server");
         default:
